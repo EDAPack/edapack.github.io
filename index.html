@@ -81,12 +81,12 @@
   <section id="edapack">
 <h1>EDAPack<a class="headerlink" href="#edapack" title="Link to this heading">¶</a></h1>
 <p><strong>EDAPack</strong> provides portable, pre-built binary packages of open-source EDA
-(Electronic Design Automation) tools for Linux.  Each package:</p>
+(Electronic Design Automation) tools.  Each package:</p>
 <ul class="simple">
-<li><p>Runs on any Linux system without a local compiler toolchain or library
-installation.</p></li>
-<li><p>Is published as a self-contained release tarball installable with <code class="docutils literal notranslate"><span class="pre">pip</span></code> or
-<a class="reference external" href="https://github.com/fvutils/ivpm">IVPM</a>.</p></li>
+<li><p>Runs without requiring a local compiler toolchain or library installation.</p></li>
+<li><p>Is published as a self-contained release tarball or zip, downloadable
+directly from GitHub Releases or installable via
+<a class="reference external" href="https://github.com/fvutils/ivpm">IVPM</a> (<code class="docutils literal notranslate"><span class="pre">gh-rls</span></code> source).</p></li>
 <li><p>Ships with a <code class="docutils literal notranslate"><span class="pre">bin/</span></code> directory that IVPM can automatically prepend to
 <code class="docutils literal notranslate"><span class="pre">PATH</span></code>, so tools are available to downstream tasks immediately.</p></li>
 <li><p>Integrates with the <a class="reference external" href="https://dv-flow.github.io/">DV Flow</a> task framework
@@ -108,11 +108,10 @@ where applicable.</p></li>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><strong>yosys-bin</strong></p></td>
-<td><p><a class="reference external" href="https://yosyshq.net/yosys/">Yosys</a> open synthesis suite with
-multi-version Python bindings (<code class="docutils literal notranslate"><span class="pre">pyosys</span></code>), the <code class="docutils literal notranslate"><span class="pre">yosys-slang</span></code>
-SystemVerilog plugin, Boolector SMT solver, and DV Flow integration.</p></td>
-<td><p><a class="reference external" href="https://edapack.github.io/yosys-bin/">yosys-bin docs</a></p></td>
+<tr class="row-even"><td><p><strong>iverilog-bin</strong></p></td>
+<td><p><a class="reference external" href="https://steveicarus.github.io/iverilog/">Icarus Verilog</a> Verilog
+simulation compiler and runtime.</p></td>
+<td><p><a class="reference external" href="https://edapack.github.io/iverilog-bin/">iverilog-bin docs</a></p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>verilator-bin</strong></p></td>
 <td><p><a class="reference external" href="https://www.veripool.org/verilator/">Verilator</a> Verilog/SystemVerilog
@@ -120,11 +119,22 @@ simulator/linter, bundled with the Bitwuzla SMT solver and the UVM
 library.</p></td>
 <td><p><a class="reference external" href="https://edapack.github.io/verilator-bin/">verilator-bin docs</a></p></td>
 </tr>
-<tr class="row-even"><td><p><strong>nextpnr-bin</strong></p></td>
+<tr class="row-even"><td><p><strong>yosys-bin</strong></p></td>
+<td><p><a class="reference external" href="https://yosyshq.net/yosys/">Yosys</a> open synthesis suite with
+multi-version Python bindings (<code class="docutils literal notranslate"><span class="pre">pyosys</span></code>), the <code class="docutils literal notranslate"><span class="pre">yosys-slang</span></code>
+SystemVerilog plugin, Boolector SMT solver, and DV Flow integration.</p></td>
+<td><p><a class="reference external" href="https://edapack.github.io/yosys-bin/">yosys-bin docs</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>nextpnr-bin</strong></p></td>
 <td><p><a class="reference external" href="https://github.com/YosysHQ/nextpnr">nextpnr</a> FPGA place-and-route
 tool with iCE40, ECP5, Nexus, and generic backends, plus bundled
 chipdb files.</p></td>
 <td><p><a class="reference external" href="https://edapack.github.io/nextpnr-bin/">nextpnr-bin docs</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>icestorm-bin</strong></p></td>
+<td><p><a class="reference external" href="https://clifford.at/icestorm/">Project IceStorm</a> iCE40 bitstream
+utilities (<code class="docutils literal notranslate"><span class="pre">icepack</span></code>, <code class="docutils literal notranslate"><span class="pre">iceprog</span></code>, <code class="docutils literal notranslate"><span class="pre">icetime</span></code>, and friends).</p></td>
+<td><p><a class="reference external" href="https://edapack.github.io/icestorm-bin/">icestorm-bin docs</a></p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>symbiyosys-bin</strong></p></td>
 <td><p><a class="reference external" href="https://yosyshq.readthedocs.io/projects/symbiyosys/">SymbiYosys</a>
@@ -136,6 +146,16 @@ Z3 solvers.</p></td>
 <td><p><a class="reference external" href="https://theopenroadproject.org/">OpenROAD</a> autonomous RTL-to-GDS
 physical design flow tool for ASIC implementation.</p></td>
 <td><p><a class="reference external" href="https://edapack.github.io/openroad-bin/">openroad-bin docs</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>opensta-bin</strong></p></td>
+<td><p><a class="reference external" href="https://github.com/The-OpenROAD-Project/OpenSTA">OpenSTA</a> gate-level
+static timing analysis engine.</p></td>
+<td><p><a class="reference external" href="https://edapack.github.io/opensta-bin/">opensta-bin docs</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>ngspice-bin</strong></p></td>
+<td><p><a class="reference external" href="https://ngspice.sourceforge.io/">ngspice</a> mixed-level/mixed-signal
+analog and digital circuit simulator.</p></td>
+<td><p><a class="reference external" href="https://edapack.github.io/ngspice-bin/">ngspice-bin docs</a></p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>gcc-riscv-bin</strong></p></td>
 <td><p>Complete RISC-V bare-metal cross-compiler toolchain (binutils + GCC +
@@ -149,16 +169,119 @@ variants.</p></td>
 Xtensa/ESP32, and many more architectures.</p></td>
 <td><p><a class="reference external" href="https://edapack.github.io/gdb-multiarch-bin/">gdb-multiarch-bin docs</a></p></td>
 </tr>
+<tr class="row-odd"><td><p><strong>qemu-riscv</strong></p></td>
+<td><p><a class="reference external" href="https://www.qemu.org/">QEMU</a> RISC-V system emulator for running
+bare-metal and Linux-based RISC-V workloads on an x86_64 host.</p></td>
+<td><p><a class="reference external" href="https://edapack.github.io/qemu-riscv/">qemu-riscv docs</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="platform-support">
+<h2>Platform Support<a class="headerlink" href="#platform-support" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 18.0%" />
+<col style="width: 18.0%" />
+<col style="width: 16.0%" />
+<col style="width: 18.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Package</p></th>
+<th class="head"><p>Linux x86_64</p></th>
+<th class="head"><p>Linux aarch64</p></th>
+<th class="head"><p>macOS arm64</p></th>
+<th class="head"><p>Windows x64</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>iverilog-bin</strong></p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>verilator-bin</strong></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>yosys-bin</strong></p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>nextpnr-bin</strong></p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>icestorm-bin</strong></p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>symbiyosys-bin</strong></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>openroad-bin</strong></p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>opensta-bin</strong></p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>ngspice-bin</strong></p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>gcc-riscv-bin</strong></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>gdb-multiarch-bin</strong></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>qemu-riscv</strong></p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 </section>
 <hr class="docutils" />
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
-<p><strong>Install from a GitHub Release tarball</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">&lt;</span><span class="n">package</span><span class="o">&gt;-</span><span class="n">manylinux</span><span class="o">-</span><span class="n">x64</span><span class="o">-&lt;</span><span class="n">version</span><span class="o">&gt;.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<p><strong>Install from a GitHub Release tarball</strong> — download the appropriate asset
+from the package’s GitHub Releases page, then extract it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="n">xf</span> <span class="o">&lt;</span><span class="n">package</span><span class="o">&gt;-</span><span class="n">manylinux_2_28_x86_64</span><span class="o">-&lt;</span><span class="n">version</span><span class="o">&gt;.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
 </pre></div>
 </div>
+<p>The extracted directory contains a <code class="docutils literal notranslate"><span class="pre">bin/</span></code> subdirectory you can add to
+<code class="docutils literal notranslate"><span class="pre">PATH</span></code> manually, or let IVPM manage it automatically.</p>
 <p><strong>Install with IVPM</strong> — add a dependency to your <code class="docutils literal notranslate"><span class="pre">ivpm.yaml</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">package</span><span class="p">:</span>
   <span class="n">dep</span><span class="o">-</span><span class="n">sets</span><span class="p">:</span>
@@ -172,7 +295,8 @@ Xtensa/ESP32, and many more architectures.</p></td>
 <span class="n">ivpm</span> <span class="n">update</span>
 </pre></div>
 </div>
-<p>IVPM automatically prepends the package <code class="docutils literal notranslate"><span class="pre">bin/</span></code> directory to <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+<p>IVPM automatically selects the correct platform asset and prepends the
+package <code class="docutils literal notranslate"><span class="pre">bin/</span></code> directory to <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
 </section>
 <hr class="docutils" />
 <section id="source-issues">
