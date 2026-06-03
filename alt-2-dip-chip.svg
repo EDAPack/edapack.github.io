@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!--
+    Concept: a classic DIP (Dual Inline Package) IC chip centered in the icon.
+    The chip IS the "package" — plays on "EDAPack" directly.
+    Circuit traces radiate from the pins.
+  -->
+  <defs>
+    <radialGradient id="bgAlt2" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </radialGradient>
+    <linearGradient id="chipBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A5F"/>
+      <stop offset="100%" stop-color="#0C1E3A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="96" fill="url(#bgAlt2)"/>
+
+  <!-- Subtle grid -->
+  <g stroke="#1E3A5F" stroke-width="0.6" opacity="0.5">
+    <line x1="20" y1="40"  x2="180" y2="40"/>  <line x1="20" y1="70"  x2="180" y2="70"/>
+    <line x1="20" y1="100" x2="180" y2="100"/> <line x1="20" y1="130" x2="180" y2="130"/>
+    <line x1="20" y1="160" x2="180" y2="160"/>
+    <line x1="40"  y1="20" x2="40"  y2="180"/> <line x1="70"  y1="20" x2="70"  y2="180"/>
+    <line x1="100" y1="20" x2="100" y2="180"/> <line x1="130" y1="20" x2="130" y2="180"/>
+    <line x1="160" y1="20" x2="160" y2="180"/>
+  </g>
+
+  <!-- ===== DIP IC CHIP ===== -->
+  <!-- Chip body: centered rectangle, 90x60 -->
+  <!-- Pins: 5 per side on top and bottom (standard DIP look) -->
+
+  <!-- Pin traces radiating outward FIRST (behind chip body) -->
+  <!-- Top pins — traces going upward, then turning left/right -->
+  <g stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Top 5 pin traces (going up from chip) -->
+    <polyline points="68,70 68,52 52,52"/>
+    <polyline points="80,70 80,44 100,44 100,36"/>
+    <polyline points="92,70 92,48"/>
+    <polyline points="108,70 108,48"/>
+    <polyline points="120,70 120,44 140,44 140,52"/>
+    <polyline points="132,70 132,52 148,52"/>
+    <!-- Bottom 5 pin traces (going down from chip) -->
+    <polyline points="68,130 68,148 52,148"/>
+    <polyline points="80,130 80,156 100,156 100,164"/>
+    <polyline points="92,130 92,152"/>
+    <polyline points="108,130 108,152"/>
+    <polyline points="120,130 120,156 140,156 140,148"/>
+    <polyline points="132,130 132,148 148,148"/>
+  </g>
+
+  <!-- Trace endpoint pads -->
+  <g fill="#34D399">
+    <rect x="44" y="48"  width="10" height="8" rx="2"/>
+    <rect x="96" y="28"  width="8"  height="10" rx="2"/>
+    <rect x="144" y="48" width="10" height="8" rx="2"/>
+    <rect x="88" y="44"  width="8"  height="8" rx="2"/>
+    <rect x="104" y="44" width="8"  height="8" rx="2"/>
+
+    <rect x="44" y="144" width="10" height="8" rx="2"/>
+    <rect x="96" y="162" width="8"  height="10" rx="2"/>
+    <rect x="144" y="144" width="10" height="8" rx="2"/>
+    <rect x="88" y="148" width="8"  height="8" rx="2"/>
+    <rect x="104" y="148" width="8" height="8" rx="2"/>
+  </g>
+
+  <!-- Chip body -->
+  <rect x="58" y="70" width="84" height="60" rx="6" fill="url(#chipBody)" stroke="#38BDF8" stroke-width="2"/>
+
+  <!-- Notch at top center (pin 1 indicator) -->
+  <path d="M 90,70 Q 100,62 110,70" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+
+  <!-- Top pins (leads) -->
+  <g fill="#38BDF8">
+    <rect x="65" y="60" width="7" height="12" rx="2"/>
+    <rect x="77" y="60" width="7" height="12" rx="2"/>
+    <rect x="89" y="60" width="7" height="12" rx="2"/>
+    <rect x="101" y="60" width="7" height="12" rx="2"/>
+    <rect x="113" y="60" width="7" height="12" rx="2"/>
+    <rect x="125" y="60" width="7" height="12" rx="2"/>
+  </g>
+
+  <!-- Bottom pins (leads) -->
+  <g fill="#38BDF8">
+    <rect x="65" y="128" width="7" height="12" rx="2"/>
+    <rect x="77" y="128" width="7" height="12" rx="2"/>
+    <rect x="89" y="128" width="7" height="12" rx="2"/>
+    <rect x="101" y="128" width="7" height="12" rx="2"/>
+    <rect x="113" y="128" width="7" height="12" rx="2"/>
+    <rect x="125" y="128" width="7" height="12" rx="2"/>
+  </g>
+
+  <!-- Chip label: EDAPack -->
+  <text x="100" y="97" font-family="'Arial Narrow', Arial, sans-serif" font-size="13"
+        font-weight="bold" fill="#38BDF8" text-anchor="middle" letter-spacing="1">EDAPack</text>
+
+  <!-- Chip sub-label -->
+  <text x="100" y="112" font-family="monospace" font-size="8"
+        fill="#64748B" text-anchor="middle" letter-spacing="0.5">EDA-1.0</text>
+
+  <!-- Pin 1 dot -->
+  <circle cx="65" cy="78" r="3" fill="#34D399"/>
+</svg>

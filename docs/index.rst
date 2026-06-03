@@ -192,3 +192,16 @@ Source & Issues
 All package repositories live under the
 `EDAPack GitHub organisation <https://github.com/EDAPack>`_.
 Bug reports and pull requests are welcome in the individual repositories.
+
+----
+
+Developer Guide
+---------------
+
+How the edapack build & release system works, and how to build, release, and
+extend the tool packages.
+
+.. toctree::
+   :maxdepth: 2
+
+   dev/index

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="bgAlt1" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </radialGradient>
+    <filter id="glowAlt1">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="96" fill="url(#bgAlt1)"/>
+
+  <!-- Subtle PCB grid -->
+  <g stroke="#1E3A5F" stroke-width="0.6" opacity="0.5">
+    <line x1="20" y1="40"  x2="180" y2="40"/>  <line x1="20" y1="70"  x2="180" y2="70"/>
+    <line x1="20" y1="100" x2="180" y2="100"/> <line x1="20" y1="130" x2="180" y2="130"/>
+    <line x1="20" y1="160" x2="180" y2="160"/>
+    <line x1="40"  y1="20" x2="40"  y2="180"/> <line x1="70"  y1="20" x2="70"  y2="180"/>
+    <line x1="100" y1="20" x2="100" y2="180"/> <line x1="130" y1="20" x2="130" y2="180"/>
+    <line x1="160" y1="20" x2="160" y2="180"/>
+  </g>
+
+  <!-- ===== CIRCUIT-TRACE LOWERCASE "e" ===== -->
+  <!-- The "e": arc from upper-right, counterclockwise around to lower-right, -->
+  <!-- with a horizontal bar at midheight                                      -->
+  <!-- Circle center: (100, 90), radius 44                                     -->
+  <!-- Arc endpoints at ≈ ±30° from horizontal right: (138,68) and (138,112)  -->
+
+  <!-- Glow layer (rendered first, behind) -->
+  <g filter="url(#glowAlt1)" opacity="0.6">
+    <!-- Arc body of "e" -->
+    <path d="M 138,68 A 44,44 0 1 0 138,112"
+          fill="none" stroke="#38BDF8" stroke-width="12" stroke-linecap="round"/>
+    <!-- Horizontal bar -->
+    <line x1="60" y1="90" x2="138" y2="90"
+          stroke="#38BDF8" stroke-width="12" stroke-linecap="round"/>
+  </g>
+
+  <!-- Main strokes -->
+  <!-- Arc body of "e": from top-right, counterclockwise all the way around to bottom-right -->
+  <path d="M 138,68 A 44,44 0 1 0 138,112"
+        fill="none" stroke="#38BDF8" stroke-width="11" stroke-linecap="round"/>
+
+  <!-- Horizontal midbar (the distinguishing feature of "e" vs "c") -->
+  <line x1="60" y1="90" x2="138" y2="90"
+        stroke="#38BDF8" stroke-width="11" stroke-linecap="round"/>
+
+  <!-- Via dots at key trace junctions — classic PCB element -->
+  <!-- Left end of bar (where bar meets arc) -->
+  <circle cx="60" cy="90" r="8" fill="#0F172A" stroke="#38BDF8" stroke-width="3"/>
+  <circle cx="60" cy="90" r="3" fill="#38BDF8"/>
+
+  <!-- Top of arc -->
+  <circle cx="138" cy="68" r="7" fill="#0F172A" stroke="#38BDF8" stroke-width="3"/>
+  <circle cx="138" cy="68" r="2.5" fill="#38BDF8"/>
+
+  <!-- Bottom of arc -->
+  <circle cx="138" cy="112" r="7" fill="#0F172A" stroke="#38BDF8" stroke-width="3"/>
+  <circle cx="138" cy="112" r="2.5" fill="#38BDF8"/>
+
+  <!-- Top of circle (12 o'clock) -->
+  <circle cx="100" cy="46" r="6" fill="#0F172A" stroke="#38BDF8" stroke-width="2.5"/>
+  <circle cx="100" cy="46" r="2" fill="#38BDF8"/>
+
+  <!-- Bottom of circle (6 o'clock) -->
+  <circle cx="100" cy="134" r="6" fill="#0F172A" stroke="#38BDF8" stroke-width="2.5"/>
+  <circle cx="100" cy="134" r="2" fill="#38BDF8"/>
+
+  <!-- Left of circle (9 o'clock) -->
+  <circle cx="56" cy="90" r="0" fill="none"/><!-- (coincides with bar via) -->
+
+  <!-- Small perpendicular stubs off the arc (circuit trace detail) -->
+  <g stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
+    <!-- Stubs at ~10 o'clock -->
+    <line x1="63" y1="55" x2="55" y2="47"/>
+    <!-- Stubs at ~8 o'clock -->
+    <line x1="63" y1="125" x2="55" y2="133"/>
+    <!-- Stub at ~12 o'clock -->
+    <line x1="100" y1="46" x2="100" y2="36"/>
+    <line x1="100" y1="36" x2="110" y2="36"/>
+    <!-- Stub at bottom -->
+    <line x1="100" y1="134" x2="100" y2="144"/>
+    <line x1="100" y1="144" x2="110" y2="144"/>
+    <!-- Terminal vias on stubs -->
+    <circle cx="55"  cy="47"  r="3.5" fill="#38BDF8" stroke="none"/>
+    <circle cx="55"  cy="133" r="3.5" fill="#38BDF8" stroke="none"/>
+    <circle cx="110" cy="36"  r="3.5" fill="#38BDF8" stroke="none"/>
+    <circle cx="110" cy="144" r="3.5" fill="#38BDF8" stroke="none"/>
+  </g>
+
+  <!-- "pack" wordmark below -->
+  <text x="100" y="170" font-family="'Arial Narrow', Arial, sans-serif" font-size="22"
+        font-weight="bold" fill="#38BDF8" text-anchor="middle" letter-spacing="4">pack</text>
+
+  <!-- Thin underline trace for wordmark -->
+  <line x1="56" y1="174" x2="144" y2="174" stroke="#0369A1" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="56"  cy="174" r="2.5" fill="#0369A1"/>
+  <circle cx="144" cy="174" r="2.5" fill="#0369A1"/>
+</svg>
