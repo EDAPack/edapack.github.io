@@ -20,9 +20,8 @@ The `selftest` workflow runs the same on every push/PR.
 | `scripts/*.py` | resolver, manifest, diff, stage-skills (stdlib only — no third-party deps, so they run in the build container). |
 | `scripts/*.sh` | `build-common.sh` library, `local-build.sh`, `reset-root-owned.sh`. |
 | `schemas/` | JSON Schemas for manifest / build-inputs / skill-manifest. |
-| `docker/Dockerfile` | parametric rootless builder image. |
-| `.github/workflows/` | `build-release.yml` (reusable), `builder-images.yml`, `selftest.yml`. |
-| `tests/` | pytest (unit/schemas/skills) + shell tests. |
+| `.github/workflows/` | `build-release.yml` (reusable), `selftest.yml`. |
+| `tests/` | pytest (unit/schemas/skills) + shell tests + the build harness. |
 
 ## Versioning & tagging
 
@@ -30,12 +29,14 @@ Tool repos pin `@v1`. Land changes on `main`, then move the floating `v1` tag
 forward once `selftest` is green. Cut `@v2` only for breaking changes to the
 reusable workflow inputs, the `ec_*` shell API, or the manifest schema.
 
-## Builder images
+## Build environment
 
-`docker/Dockerfile` is parametric over `BASE_IMAGE`. `builder-images.yml` builds
-and pushes one image per manylinux variant to GHCR weekly and on `docker/**`
-changes. When adding a system dependency a tool needs at build time, add it to
-the `yum install` line (so builds stay rootless and don't install at runtime).
+Builds run in the stock `quay.io/pypa/manylinux*` images — there are no custom
+images to maintain. Each tool's `build.sh` installs the system packages it needs
+at build time under `if [ "${EC_INSTALL_DEPS:-0}" = "1" ]`. When a tool needs a
+new system dependency, add it to that block in the tool's `build.sh` (not here).
+The shared scripts reach the build via ivpm (`edapack-common` is an ivpm
+dependency fetched into `packages/edapack-common`).
 
 ## Adding a Python tool dependency
 

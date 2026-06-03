@@ -37,10 +37,12 @@ runs four stages:
    - no prior release, `force`, a `push`, or a pinned `workflow_dispatch` → build
    - a scheduled run whose digest is unchanged → **skip** (no release)
    - a changed digest → build, and the changed inputs go into the release notes
-3. **build** (matrix, one job per manylinux image) — runs the tool's
-   `scripts/build.sh` inside the rootless builder image. `build.sh` sources
-   `build-common.sh` and calls `ec_finalize_release`, which stages skills, ships
-   `export.envrc`, and writes the per-platform `manifest.json`.
+3. **build** (matrix, one job per manylinux image) — `docker run`s the tool's
+   `scripts/build.sh` in the stock `quay.io/pypa/manylinux*` image (deps
+   installed at build time). `build.sh` sources `build-common.sh` (delivered via
+   ivpm at `packages/edapack-common`) and calls `ec_finalize_release`, which
+   stages skills, ships `export.envrc`, and writes the per-platform
+   `manifest.json`.
 4. **publish** — merges the per-platform manifests into one top-level
    `manifest.json` and creates the GitHub Release with the tarballs + manifest.
 
@@ -52,8 +54,11 @@ bespoke per-repo version logic). That guarantees drift. `edapack-common`
 collapses the shared parts into one versioned source of truth:
 
 - **CI** consumes it as a reusable workflow (`uses: edapack/edapack-common/...@v1`).
-- **Local builds** consume it as a sibling checkout (`scripts/local-build.sh`).
-- **`build.sh`** consumes it by sourcing `build-common.sh` (the `ec_*` helpers).
+- **The scripts** reach each build via ivpm: `edapack-common` is an ivpm
+  dependency of every tool, fetched into `packages/edapack-common` by
+  `ivpm update`. Builds run in the stock `quay.io/pypa/manylinux*` images.
+- **`build.sh`** consumes it by sourcing `build-common.sh` (the `ec_*` helpers)
+  from `packages/edapack-common`.
 
 Genuinely tool-specific logic (configure flags, dependency build steps) stays in
 each repo's `build.sh`; only the shared scaffolding moves out.

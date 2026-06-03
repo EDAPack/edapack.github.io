@@ -26,7 +26,7 @@ went into the build.
   ],
   "platforms": [
     { "os": "linux", "arch": "x86_64", "libc": "glibc_2.28",
-      "image": "ghcr.io/edapack/manylinux_2_28_x86_64" }
+      "image": "quay.io/pypa/manylinux_2_28_x86_64" }
   ],
   "skills": [
     { "name": "verilator", "version": "5.038", "binaries": ["verilator"] }

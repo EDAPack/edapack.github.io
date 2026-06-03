@@ -32,7 +32,8 @@ Every binary release produced by the edapack pipeline provides:
    │ scripts/skill-manifest │           │ stage-skills.py              │
    │ scripts/export.envrc   │           │ gen-manifest.py / diff       │
    │ skills/<tool>/         │           │ build-release.yml (reusable) │
-   │ .github/workflows/     │──calls───▶│ rootless builder images      │
+   │ ivpm.yaml (dep) ───────┼──fetch───▶│ (scripts via packages/)      │
+   │ .github/workflows/     │──calls───▶│ stock quay.io/pypa manylinux │
    │   ci.yml (thin)        │           └──────────────────────────────┘
    └────────────────────────┘
                 │

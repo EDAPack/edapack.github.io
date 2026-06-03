@@ -5,7 +5,8 @@ Checklist to onboard a new `<tool>-bin` repo onto the edapack build system.
 1. **Create the repo** with the standard layout:
    ```
    build-inputs.yaml
-   scripts/build.sh          # sources edapack-common/scripts/build-common.sh
+   ivpm.yaml                 # lists edapack-common as a dependency
+   scripts/build.sh          # sources packages/edapack-common/scripts/build-common.sh
    scripts/skill-manifest.yaml
    scripts/export.envrc      # PATH_add bin
    skills/<tool>/SKILL.md (+ references/, examples/)
@@ -13,7 +14,16 @@ Checklist to onboard a new `<tool>-bin` repo onto the edapack build system.
    ```
 
 2. **Declare inputs** in `build-inputs.yaml` (see {doc}`build-inputs`): the core
-   source and every tracked dependency, each with a `policy`.
+   source and every tracked dependency, each with a `policy`. And add
+   `edapack-common` to `ivpm.yaml` so the shared scripts are fetched into
+   `packages/edapack-common`:
+   ```yaml
+   dep-sets:
+   - name: default-dev
+     deps:
+     - name: edapack-common
+       url: https://github.com/edapack/edapack-common.git
+   ```
 
 3. **Write `scripts/build.sh`** — do the tool-specific configure/build, then
    call the shared tail:
