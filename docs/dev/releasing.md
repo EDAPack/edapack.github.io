@@ -35,6 +35,23 @@ A dispatch with any `core_ref`/`input_overrides` set is a *pinned* build and
 always proceeds regardless of the gate. The resulting `manifest.json` records
 the pinned refs, so the build is fully reproducible.
 
+## Build targets (x86_64 / aarch64 / macOS)
+
+A tool's `ci.yml` chooses what to build via one of two `with:` inputs to the
+reusable workflow:
+
+- **`images`** — the simple case: a JSON array of x86_64 manylinux short-names.
+  Each becomes a `docker run quay.io/pypa/<name>` job on `ubuntu-latest`.
+- **`targets`** — the rich case (overrides `images`): a JSON array of objects
+  `{name, runs-on, kind: docker|native, image?}`. Use it for **aarch64**
+  (`kind: docker` on an arm Linux runner, e.g. `ubuntu-24.04-arm`) and **macOS**
+  (`kind: native`, e.g. `runs-on: macos-14`, which runs `build.sh` directly and
+  provisions deps via Homebrew). `verilator-bin/.github/workflows/ci.yml` is the
+  worked example (x86_64 + aarch64 manylinux + native macOS-arm64).
+
+aarch64 Linux runners are free on public repos; native macOS targets only work
+for tools whose `build.sh` has a macOS path.
+
 ## What a release contains
 
 ```
