@@ -1,0 +1,176 @@
+# EDAPack top-level package catalog
+#
+# Published at the web root: https://edapack.github.io/ivpm.yaml
+#
+# - The 'all' dep-set lists every distributable EDAPack tool package.
+# - Each package additionally has its own single-package dep-set so it can be
+#   pulled individually (e.g. `ivpm update -d verilator`).
+# - Collections (curated multi-tool bundles, e.g. an iCE40/ice40 flow) will be
+#   added as additional dep-sets below.
+#
+# Every package is sourced from its GitHub binary releases (src: gh-rls) and
+# cached locally.
+
+package:
+  name: edapack
+
+  dep-sets:
+
+  - name: gcc-riscv
+    deps:
+    - name: gcc-riscv
+      url: https://github.com/edapack/gcc-riscv-bin
+      src: gh-rls
+      cache: true
+
+  - name: gdb-multiarch
+    deps:
+    - name: gdb-multiarch
+      url: https://github.com/edapack/gdb-multiarch-bin
+      src: gh-rls
+      cache: true
+
+  - name: icestorm
+    deps:
+    - name: icestorm
+      url: https://github.com/edapack/icestorm-bin
+      src: gh-rls
+      cache: true
+
+  - name: iverilog
+    deps:
+    - name: iverilog
+      url: https://github.com/edapack/iverilog-bin
+      src: gh-rls
+      cache: true
+
+  - name: nextpnr
+    deps:
+    - name: nextpnr
+      url: https://github.com/edapack/nextpnr-bin
+      src: gh-rls
+      cache: true
+
+  - name: ngspice
+    deps:
+    - name: ngspice
+      url: https://github.com/edapack/ngspice-bin
+      src: gh-rls
+      cache: true
+
+  - name: openroad
+    deps:
+    - name: openroad
+      url: https://github.com/edapack/openroad-bin
+      src: gh-rls
+      cache: true
+
+  - name: opensta
+    deps:
+    - name: opensta
+      url: https://github.com/edapack/opensta-bin
+      src: gh-rls
+      cache: true
+
+  - name: qemu-riscv
+    deps:
+    - name: qemu-riscv
+      url: https://github.com/edapack/qemu-riscv
+      src: gh-rls
+      cache: true
+
+  - name: verilator
+    deps:
+    - name: verilator
+      url: https://github.com/edapack/verilator-bin
+      src: gh-rls
+      cache: true
+
+  - name: yosys
+    deps:
+    - name: yosys
+      url: https://github.com/edapack/yosys-bin
+      src: gh-rls
+      cache: true
+
+  # ---- Collections ---------------------------------------------------------
+  # Curated multi-tool bundles for common workflows. Named with a
+  # category prefix (sim.*, flow.*, verif.*, embedded.*) so related
+  # collections group together. Overlapping packages (e.g. yosys) are
+  # deduplicated by IVPM.
+
+  - name: sim.rtl
+    # Verilog/SystemVerilog simulation
+    deps:
+    - name: verilator
+      url: https://github.com/edapack/verilator-bin
+      src: gh-rls
+      cache: true
+    - name: iverilog
+      url: https://github.com/edapack/iverilog-bin
+      src: gh-rls
+      cache: true
+
+  - name: sim.analog
+    # SPICE analog/mixed-signal simulation
+    deps:
+    - name: ngspice
+      url: https://github.com/edapack/ngspice-bin
+      src: gh-rls
+      cache: true
+
+  - name: flow.fpga.ice40
+    # Open bitstream flow for Lattice iCE40 FPGAs
+    deps:
+    - name: yosys
+      url: https://github.com/edapack/yosys-bin
+      src: gh-rls
+      cache: true
+    - name: nextpnr
+      url: https://github.com/edapack/nextpnr-bin
+      src: gh-rls
+      cache: true
+    - name: icestorm
+      url: https://github.com/edapack/icestorm-bin
+      src: gh-rls
+      cache: true
+
+  - name: flow.asic
+    # Digital RTL-to-GDS: synthesis, place-and-route, static timing
+    deps:
+    - name: yosys
+      url: https://github.com/edapack/yosys-bin
+      src: gh-rls
+      cache: true
+    - name: openroad
+      url: https://github.com/edapack/openroad-bin
+      src: gh-rls
+      cache: true
+    - name: opensta
+      url: https://github.com/edapack/opensta-bin
+      src: gh-rls
+      cache: true
+
+  - name: verif.formal
+    # Formal verification (SymbiYosys drives Yosys + solvers)
+    deps:
+    - name: yosys
+      url: https://github.com/edapack/yosys-bin
+      src: gh-rls
+      cache: true
+
+  - name: embedded.riscv
+    # RISC-V bare-metal development: toolchain, debugger, emulator
+    deps:
+    - name: gcc-riscv
+      url: https://github.com/edapack/gcc-riscv-bin
+      src: gh-rls
+      cache: true
+    - name: gdb-multiarch
+      url: https://github.com/edapack/gdb-multiarch-bin
+      src: gh-rls
+      cache: true
+    - name: qemu-riscv
+      url: https://github.com/edapack/qemu-riscv
+      src: gh-rls
+      cache: true

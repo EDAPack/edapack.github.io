@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Developer Guide &#8212; EDAPack</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Architecture" href="architecture.html" />
+    <link rel="prev" title="EDAPack" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">EDAPack</a></h1>
+
+
+
+<p class="blurb">Portable pre-built EDA tool binaries</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=EDAPack&repo=edapack.github.io&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-the-build-system-guarantees">What the build system guarantees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-it-fits-together">How it fits together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">EDAPack</a></li>
+      <li>Next: <a href="architecture.html" title="next chapter">Architecture</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="developer-guide">
+<h1>Developer Guide<a class="headerlink" href="#developer-guide" title="Link to this heading">¶</a></h1>
+<p>How the edapack build &amp; release system works, and how to build, release, and
+extend the tool packages (<code class="docutils literal notranslate"><span class="pre">verilator-bin</span></code>, <code class="docutils literal notranslate"><span class="pre">yosys-bin</span></code>, <code class="docutils literal notranslate"><span class="pre">iverilog-bin</span></code>,
+<code class="docutils literal notranslate"><span class="pre">icestorm-bin</span></code>, <code class="docutils literal notranslate"><span class="pre">nextpnr-bin</span></code>, …).</p>
+<section id="what-the-build-system-guarantees">
+<h2>What the build system guarantees<a class="headerlink" href="#what-the-build-system-guarantees" title="Link to this heading">¶</a></h2>
+<p>Every binary release produced by the edapack pipeline provides:</p>
+<ol class="arabic simple">
+<li><p><strong>A release manifest</strong> (<code class="docutils literal notranslate"><span class="pre">manifest.json</span></code>) recording the exact versions/commits
+of the core source and every tracked dependency that went into the build.</p></li>
+<li><p><strong>Change-gated weekly releases</strong> — a scheduled build only publishes when an
+input component actually changed since the last release.</p></li>
+<li><p><strong>Reproducible pinned builds</strong> — any tool can be built at a specific core
+version (e.g. Verilator <code class="docutils literal notranslate"><span class="pre">v5.038</span></code>) on demand.</p></li>
+<li><p><strong>Rootless local builds</strong> — developers reproduce the manylinux build locally
+without writing root-owned files into the workspace, with a one-command
+cleanup.</p></li>
+<li><p><strong>A shipped <code class="docutils literal notranslate"><span class="pre">export.envrc</span></code></strong> — extracted releases drop their <code class="docutils literal notranslate"><span class="pre">bin/</span></code> onto
+<code class="docutils literal notranslate"><span class="pre">PATH</span></code> via direnv.</p></li>
+<li><p><strong>Shipped Agent Skills</strong> — every release carries the tool’s <code class="docutils literal notranslate"><span class="pre">skills/</span></code> so
+agents can drive it.</p></li>
+</ol>
+</section>
+<section id="how-it-fits-together">
+<h2>How it fits together<a class="headerlink" href="#how-it-fits-together" title="Link to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   tool repo (verilator-bin)            edapack-common (shared)
+   ┌────────────────────────┐           ┌──────────────────────────────┐
+   │ build-inputs.yaml      │──resolve──▶│ resolve-inputs.py            │
+   │ scripts/build.sh ──────┼──sources──▶│ build-common.sh (ec_* libs)  │
+   │ scripts/skill-manifest │           │ stage-skills.py              │
+   │ scripts/export.envrc   │           │ gen-manifest.py / diff       │
+   │ skills/&lt;tool&gt;/         │           │ build-release.yml (reusable) │
+   │ ivpm.yaml (dep) ───────┼──fetch───▶│ (scripts via packages/)      │
+   │ .github/workflows/     │──calls───▶│ stock quay.io/pypa manylinux │
+   │   ci.yml (thin)        │           └──────────────────────────────┘
+   └────────────────────────┘
+                │
+                ▼
+        GitHub Release:  &lt;tool&gt;-&lt;platform&gt;-&lt;version&gt;.tar.gz  +  manifest.json
+</pre></div>
+</div>
+<p>The shared logic lives once in
+<a class="reference external" href="https://github.com/edapack/edapack-common"><code class="docutils literal notranslate"><span class="pre">edapack-common</span></code></a>; tool repos stay
+thin and declarative. CI consumes it as a reusable workflow; local builds
+consume it as a sibling checkout.</p>
+</section>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build-inputs.html">Authoring <code class="docutils literal notranslate"><span class="pre">build-inputs.yaml</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="manifest.html">Release manifest reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local-builds.html">Local builds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="releasing.html">Releasing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skills.html">Agent Skills</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adding-a-tool.html">Adding a new tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to edapack-common</a></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This guide is being written alongside the rollout of the centralized build
+system. Pages marked <em>(planned)</em> describe behavior that is implemented in
+<code class="docutils literal notranslate"><span class="pre">edapack-common</span></code> and being adopted by the tool repos phase by phase.</p>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2024, EDAPack contributors.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/dev/index.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Adding a new tool &#8212; EDAPack</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributing to edapack-common" href="contributing.html" />
+    <link rel="prev" title="Agent Skills" href="skills.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">EDAPack</a></h1>
+
+
+
+<p class="blurb">Portable pre-built EDA tool binaries</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=EDAPack&repo=edapack.github.io&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-the-build-system-guarantees">What the build system guarantees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-it-fits-together">How it fits together</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Developer Guide</a><ul>
+      <li>Previous: <a href="skills.html" title="previous chapter">Agent Skills</a></li>
+      <li>Next: <a href="contributing.html" title="next chapter">Contributing to edapack-common</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="adding-a-new-tool">
+<h1>Adding a new tool<a class="headerlink" href="#adding-a-new-tool" title="Link to this heading">¶</a></h1>
+<p>Checklist to onboard a new <code class="docutils literal notranslate"><span class="pre">&lt;tool&gt;-bin</span></code> repo onto the edapack build system.</p>
+<ol class="arabic">
+<li><p><strong>Create the repo</strong> with the standard layout:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">build</span><span class="o">-</span><span class="n">inputs</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">ivpm</span><span class="o">.</span><span class="n">yaml</span>                 <span class="c1"># lists edapack-common as a dependency</span>
+<span class="n">scripts</span><span class="o">/</span><span class="n">build</span><span class="o">.</span><span class="n">sh</span>          <span class="c1"># sources packages/edapack-common/scripts/build-common.sh</span>
+<span class="n">scripts</span><span class="o">/</span><span class="n">skill</span><span class="o">-</span><span class="n">manifest</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">scripts</span><span class="o">/</span><span class="n">export</span><span class="o">.</span><span class="n">envrc</span>      <span class="c1"># PATH_add bin</span>
+<span class="n">skills</span><span class="o">/&lt;</span><span class="n">tool</span><span class="o">&gt;/</span><span class="n">SKILL</span><span class="o">.</span><span class="n">md</span> <span class="p">(</span><span class="o">+</span> <span class="n">references</span><span class="o">/</span><span class="p">,</span> <span class="n">examples</span><span class="o">/</span><span class="p">)</span>
+<span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">ci</span><span class="o">.</span><span class="n">yml</span>  <span class="c1"># thin caller of the reusable workflow</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Declare inputs</strong> in <code class="docutils literal notranslate"><span class="pre">build-inputs.yaml</span></code> (see <a class="reference internal" href="build-inputs.html"><span class="doc">Authoring build-inputs.yaml</span></a>): the core
+source and every tracked dependency, each with a <code class="docutils literal notranslate"><span class="pre">policy</span></code>. And add
+<code class="docutils literal notranslate"><span class="pre">edapack-common</span></code> to <code class="docutils literal notranslate"><span class="pre">ivpm.yaml</span></code> so the shared scripts are fetched into
+<code class="docutils literal notranslate"><span class="pre">packages/edapack-common</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dep-sets</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default-dev</span>
+<span class="w">  </span><span class="nt">deps</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">edapack-common</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/edapack/edapack-common.git</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Write <code class="docutils literal notranslate"><span class="pre">scripts/build.sh</span></code></strong> — do the tool-specific configure/build, then
+call the shared tail:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$EC_COMMON</span><span class="s2">/scripts/build-common.sh&quot;</span>
+ec_init_dirs
+<span class="nv">src</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>ec_clone_input<span class="w"> </span>&lt;core&gt;<span class="w"> </span>&lt;repo&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$EC_CORE_REF</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="c1"># ... tool-specific build into $release_root ...</span>
+ec_finalize_release<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SRC_DIR</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$release_root</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CANDIDATE_JSON</span><span class="s2">&quot;</span>
+ec_make_tarball<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$release_root</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;&lt;tool&gt;-</span><span class="si">${</span><span class="nv">EC_IMAGE_NAME</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">EC_VERSION</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Add the thin <code class="docutils literal notranslate"><span class="pre">ci.yml</span></code></strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[{</span><span class="nt"> cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">12</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">0&quot;</span><span class="w"> </span><span class="p p-Indicator">}]</span>
+<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">core_ref</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="nv">string</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">input_overrides</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="nv">string</span><span class="p p-Indicator">,</span><span class="nt"> default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{}&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">force</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="nv">boolean</span><span class="p p-Indicator">,</span><span class="nt"> default</span><span class="p">:</span><span class="w"> </span><span class="nv">false</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">prerelease</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="nv">boolean</span><span class="p p-Indicator">,</span><span class="nt"> default</span><span class="p">:</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">edapack/edapack-common/.github/workflows/build-release.yml@v1</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;tool&gt;-bin</span>
+<span class="w">      </span><span class="nt">images</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;[&quot;manylinux_2_28_x86_64&quot;,&quot;manylinux_2_34_x86_64&quot;]&#39;</span>
+<span class="w">      </span><span class="nt">core_ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ inputs.core_ref }}</span>
+<span class="w">      </span><span class="nt">input_overrides</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ inputs.input_overrides || &#39;{}&#39; }}</span>
+<span class="w">      </span><span class="nt">force</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ inputs.force || false }}</span>
+<span class="w">      </span><span class="nt">prerelease</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ inputs.prerelease || true }}</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Validate locally</strong>: <code class="docutils literal notranslate"><span class="pre">scripts/local-build.sh</span> <span class="pre">../&lt;tool&gt;-bin</span></code> produces a
+tarball in <code class="docutils literal notranslate"><span class="pre">dist/</span></code> with <code class="docutils literal notranslate"><span class="pre">manifest.json</span></code>, <code class="docutils literal notranslate"><span class="pre">skills/</span></code>, and <code class="docutils literal notranslate"><span class="pre">export.envrc</span></code>, and
+leaves no root-owned files (<code class="docutils literal notranslate"><span class="pre">find</span> <span class="pre">../&lt;tool&gt;-bin</span> <span class="pre">-uid</span> <span class="pre">0</span></code> is empty).</p></li>
+<li><p><strong>Run the acceptance gate</strong> (see the plan’s test §3.6): manifest valid,
+change-gate skip/publish, pinned build, skills+envrc present.</p></li>
+</ol>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2024, EDAPack contributors.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/dev/adding-a-tool.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

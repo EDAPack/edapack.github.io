@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Agent Skills &#8212; EDAPack</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=f6a572b4" />
+    <script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Adding a new tool" href="adding-a-tool.html" />
+    <link rel="prev" title="Releasing" href="releasing.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">EDAPack</a></h1>
+
+
+
+<p class="blurb">Portable pre-built EDA tool binaries</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=EDAPack&repo=edapack.github.io&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-the-build-system-guarantees">What the build system guarantees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-it-fits-together">How it fits together</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Developer Guide</a><ul>
+      <li>Previous: <a href="releasing.html" title="previous chapter">Releasing</a></li>
+      <li>Next: <a href="adding-a-tool.html" title="next chapter">Adding a new tool</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="agent-skills">
+<h1>Agent Skills<a class="headerlink" href="#agent-skills" title="Link to this heading">¶</a></h1>
+<p>Every tool ships one or more <a class="reference external" href="https://github.com/edapack">Agent Skills</a> under
+<code class="docutils literal notranslate"><span class="pre">skills/&lt;name&gt;/</span></code>, packaged into every release so agents can drive the tool.
+Authoring conventions are documented in the repo-level
+<code class="docutils literal notranslate"><span class="pre">SKILL_DEVELOPMENT_PROCESS.md</span></code>; this page covers how skills are validated and
+shipped by the build.</p>
+<section id="layout">
+<h2>Layout<a class="headerlink" href="#layout" title="Link to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">skills</span><span class="o">/&lt;</span><span class="n">name</span><span class="o">&gt;/</span>
+  <span class="n">SKILL</span><span class="o">.</span><span class="n">md</span>          <span class="c1"># frontmatter: name, description, version (+ license)</span>
+  <span class="n">references</span><span class="o">/</span>       <span class="c1"># cli-cheatsheet.md, docs-index.md, error-recipes.md</span>
+  <span class="n">examples</span><span class="o">/</span>         <span class="c1"># runnable examples, each with run.sh</span>
+</pre></div>
+</div>
+<p>A repo declares which skills to ship in <code class="docutils literal notranslate"><span class="pre">scripts/skill-manifest.yaml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">skills</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">verilator</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">skills/verilator</span>
+<span class="w">    </span><span class="nt">binaries</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">verilator</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">verilator_coverage</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">verilator_gantt</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+<section id="validation-staging">
+<h2>Validation &amp; staging<a class="headerlink" href="#validation-staging" title="Link to this heading">¶</a></h2>
+<p>During the build, <code class="docutils literal notranslate"><span class="pre">stage-skills.py</span></code> (in <code class="docutils literal notranslate"><span class="pre">edapack-common</span></code>):</p>
+<ol class="arabic simple">
+<li><p>validates each <code class="docutils literal notranslate"><span class="pre">SKILL.md</span></code> frontmatter (<code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">version</span></code>) and
+that the frontmatter <code class="docutils literal notranslate"><span class="pre">name</span></code> matches the manifest;</p></li>
+<li><p>verifies every declared binary exists in the release <code class="docutils literal notranslate"><span class="pre">bin/</span></code>;</p></li>
+<li><p>copies the skill tree into <code class="docutils literal notranslate"><span class="pre">&lt;release&gt;/skills/&lt;name&gt;/</span></code>;</p></li>
+<li><p>writes <code class="docutils literal notranslate"><span class="pre">&lt;release&gt;/skills/index.json</span></code> (schema <code class="docutils literal notranslate"><span class="pre">edapack.skills/1</span></code>).</p></li>
+</ol>
+</section>
+<section id="enforced-shipping">
+<h2>Enforced shipping<a class="headerlink" href="#enforced-shipping" title="Link to this heading">¶</a></h2>
+<p>The build runs staging in <strong>strict</strong> mode via <code class="docutils literal notranslate"><span class="pre">ec_finalize_release</span></code>, and then
+hard-requires <code class="docutils literal notranslate"><span class="pre">skills/index.json</span></code>, <code class="docutils literal notranslate"><span class="pre">export.envrc</span></code>, and <code class="docutils literal notranslate"><span class="pre">manifest.json</span></code> to be
+present before packaging. A missing skill, a missing binary, or a missing
+<code class="docutils literal notranslate"><span class="pre">export.envrc</span></code> <strong>fails the build</strong> — shipping skills and the envrc is an
+invariant, not an optional step.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2024, EDAPack contributors.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/dev/skills.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
