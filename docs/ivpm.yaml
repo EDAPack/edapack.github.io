@@ -2,21 +2,31 @@
 #
 # Published at the web root: https://edapack.github.io/ivpm.yaml
 #
-# - The 'all' dep-set lists every distributable EDAPack tool package.
-# - Each package additionally has its own single-package dep-set so it can be
-#   pulled individually (e.g. `ivpm update -d verilator`).
-# - Collections (curated multi-tool bundles, e.g. an iCE40/ice40 flow) will be
-#   added as additional dep-sets below.
+# Structure:
+# - Each tool has its own single-package dep-set so it can be pulled
+#   individually (e.g. `ivpm update --from <this> -d verilator`).
+# - Collections are curated multi-tool bundles for common workflows. They are
+#   defined by reference: `uses:` lists the package dep-sets they bundle, so
+#   each tool's source URL is declared exactly once (above) and never repeated.
+#   Collections are named with a category prefix (sim.*, flow.*, verif.*,
+#   embedded.*) so related bundles group together. Overlapping packages
+#   (e.g. yosys) are deduplicated by IVPM.
 #
 # Every package is sourced from its GitHub binary releases (src: gh-rls) and
 # cached locally.
 
 package:
   name: edapack
+  description: Catalog of prebuilt open-source EDA tools, installable individually or as curated workflow collections via IVPM
 
   dep-sets:
 
+  # ---- Packages ------------------------------------------------------------
+  # One dep-set per tool; the single source of truth for each tool's release
+  # URL. Collections below reference these by name.
+
   - name: gcc-riscv
+    description: GNU C/C++ cross-compiler toolchain targeting RISC-V
     deps:
     - name: gcc-riscv
       url: https://github.com/edapack/gcc-riscv-bin
@@ -24,6 +34,7 @@ package:
       cache: true
 
   - name: gdb-multiarch
+    description: GNU debugger with multi-architecture support (incl. RISC-V)
     deps:
     - name: gdb-multiarch
       url: https://github.com/edapack/gdb-multiarch-bin
@@ -31,6 +42,7 @@ package:
       cache: true
 
   - name: icestorm
+    description: Bitstream tools and chip database for Lattice iCE40 FPGAs
     deps:
     - name: icestorm
       url: https://github.com/edapack/icestorm-bin
@@ -38,6 +50,7 @@ package:
       cache: true
 
   - name: iverilog
+    description: Icarus Verilog event-driven Verilog simulator and synthesizer
     deps:
     - name: iverilog
       url: https://github.com/edapack/iverilog-bin
@@ -45,6 +58,7 @@ package:
       cache: true
 
   - name: nextpnr
+    description: Portable FPGA place-and-route tool
     deps:
     - name: nextpnr
       url: https://github.com/edapack/nextpnr-bin
@@ -52,6 +66,7 @@ package:
       cache: true
 
   - name: ngspice
+    description: SPICE analog/mixed-signal circuit simulator
     deps:
     - name: ngspice
       url: https://github.com/edapack/ngspice-bin
@@ -59,6 +74,7 @@ package:
       cache: true
 
   - name: openroad
+    description: RTL-to-GDS digital place-and-route and physical design flow
     deps:
     - name: openroad
       url: https://github.com/edapack/openroad-bin
@@ -66,6 +82,7 @@ package:
       cache: true
 
   - name: opensta
+    description: OpenSTA gate-level static timing analyzer
     deps:
     - name: opensta
       url: https://github.com/edapack/opensta-bin
@@ -73,6 +90,7 @@ package:
       cache: true
 
   - name: qemu-riscv
+    description: QEMU emulator for running and debugging RISC-V binaries
     deps:
     - name: qemu-riscv
       url: https://github.com/edapack/qemu-riscv
@@ -80,6 +98,7 @@ package:
       cache: true
 
   - name: verilator
+    description: Verilator high-performance Verilog/SystemVerilog-to-C++ simulator
     deps:
     - name: verilator
       url: https://github.com/edapack/verilator-bin
@@ -87,6 +106,7 @@ package:
       cache: true
 
   - name: yosys
+    description: Yosys RTL synthesis framework for Verilog
     deps:
     - name: yosys
       url: https://github.com/edapack/yosys-bin
@@ -94,83 +114,28 @@ package:
       cache: true
 
   # ---- Collections ---------------------------------------------------------
-  # Curated multi-tool bundles for common workflows. Named with a
-  # category prefix (sim.*, flow.*, verif.*, embedded.*) so related
-  # collections group together. Overlapping packages (e.g. yosys) are
-  # deduplicated by IVPM.
+  # Curated multi-tool bundles, defined by reference to the packages above.
 
   - name: sim.rtl
-    # Verilog/SystemVerilog simulation
-    deps:
-    - name: verilator
-      url: https://github.com/edapack/verilator-bin
-      src: gh-rls
-      cache: true
-    - name: iverilog
-      url: https://github.com/edapack/iverilog-bin
-      src: gh-rls
-      cache: true
+    description: Verilog/SystemVerilog RTL simulation (Verilator + Icarus Verilog)
+    uses: [verilator, iverilog]
 
   - name: sim.analog
-    # SPICE analog/mixed-signal simulation
-    deps:
-    - name: ngspice
-      url: https://github.com/edapack/ngspice-bin
-      src: gh-rls
-      cache: true
+    description: SPICE analog/mixed-signal simulation (ngspice)
+    uses: [ngspice]
 
   - name: flow.fpga.ice40
-    # Open bitstream flow for Lattice iCE40 FPGAs
-    deps:
-    - name: yosys
-      url: https://github.com/edapack/yosys-bin
-      src: gh-rls
-      cache: true
-    - name: nextpnr
-      url: https://github.com/edapack/nextpnr-bin
-      src: gh-rls
-      cache: true
-    - name: icestorm
-      url: https://github.com/edapack/icestorm-bin
-      src: gh-rls
-      cache: true
+    description: Open bitstream flow for Lattice iCE40 FPGAs (Yosys + nextpnr + IceStorm)
+    uses: [yosys, nextpnr, icestorm]
 
   - name: flow.asic
-    # Digital RTL-to-GDS: synthesis, place-and-route, static timing
-    deps:
-    - name: yosys
-      url: https://github.com/edapack/yosys-bin
-      src: gh-rls
-      cache: true
-    - name: openroad
-      url: https://github.com/edapack/openroad-bin
-      src: gh-rls
-      cache: true
-    - name: opensta
-      url: https://github.com/edapack/opensta-bin
-      src: gh-rls
-      cache: true
+    description: Digital RTL-to-GDS ASIC flow — synthesis, place-and-route, static timing (Yosys + OpenROAD + OpenSTA)
+    uses: [yosys, openroad, opensta]
 
   - name: verif.formal
-    # Formal verification (SymbiYosys drives Yosys + solvers)
-    deps:
-    - name: yosys
-      url: https://github.com/edapack/yosys-bin
-      src: gh-rls
-      cache: true
+    description: Formal verification backend (Yosys; pairs with SymbiYosys + solvers)
+    uses: [yosys]
 
   - name: embedded.riscv
-    # RISC-V bare-metal development: toolchain, debugger, emulator
-    deps:
-    - name: gcc-riscv
-      url: https://github.com/edapack/gcc-riscv-bin
-      src: gh-rls
-      cache: true
-    - name: gdb-multiarch
-      url: https://github.com/edapack/gdb-multiarch-bin
-      src: gh-rls
-      cache: true
-    - name: qemu-riscv
-      url: https://github.com/edapack/qemu-riscv
-      src: gh-rls
-      cache: true
+    description: RISC-V bare-metal development — toolchain, debugger, emulator (gcc-riscv + gdb-multiarch + qemu-riscv)
+    uses: [gcc-riscv, gdb-multiarch, qemu-riscv]
