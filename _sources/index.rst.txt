@@ -168,21 +168,75 @@ from the package's GitHub Releases page, then extract it::
 The extracted directory contains a ``bin/`` subdirectory you can add to
 ``PATH`` manually, or let IVPM manage it automatically.
 
-**Install with IVPM** — add a dependency to your ``ivpm.yaml``::
+Install with IVPM from the published catalog
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+EDAPack publishes a top-level package catalog at the site root:
+
+    https://edapack.github.io/ivpm.yaml
+
+The catalog defines one dep-set per tool (``verilator``, ``yosys``,
+``nextpnr``, …) plus curated multi-tool *collections* named with a category
+prefix:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Collection
+     - Tools
+   * - ``sim.rtl``
+     - Verilator + Icarus Verilog (RTL simulation)
+   * - ``sim.analog``
+     - ngspice (analog/mixed-signal simulation)
+   * - ``flow.fpga.ice40``
+     - Yosys + nextpnr + IceStorm (iCE40 bitstream flow)
+   * - ``flow.asic``
+     - Yosys + OpenROAD + OpenSTA (RTL-to-GDS ASIC flow)
+   * - ``verif.formal``
+     - Yosys (formal-verification backend)
+   * - ``embedded.riscv``
+     - gcc-riscv + gdb-multiarch + qemu-riscv (RISC-V bare-metal)
+
+**As a standalone operation** — point ``ivpm update --from`` directly at the
+published catalog and select the dep-set to install with ``-d``. No local
+``ivpm.yaml`` is required::
+
+    # Install a single tool
+    ivpm update --from https://edapack.github.io/ivpm.yaml -d verilator
+
+    # Install a whole collection
+    ivpm update --from https://edapack.github.io/ivpm.yaml -d flow.asic
+
+This fetches the named dep-set into ``packages/`` in the current directory.
+
+**By referencing the catalog from your own** ``ivpm.yaml`` — use the
+``ivpm.yaml`` source type to pull a named dep-set from the published catalog
+into your project. Each ``deps`` entry names the catalog ``url`` and the
+``dep-set`` to bundle::
 
     package:
+      name: my-project
       dep-sets:
         - name: default-dev
           deps:
-            - name: yosys-bin        # or verilator-bin, nextpnr-bin, …
-              src: gh-rls
-              url: https://github.com/EDAPack/yosys-bin
+            # Pull a curated collection …
+            - name: edapack-asic
+              src: ivpm.yaml
+              url: https://edapack.github.io/ivpm.yaml
+              dep-set: flow.asic
+            # … and/or an individual tool
+            - name: edapack-verilator
+              src: ivpm.yaml
+              url: https://edapack.github.io/ivpm.yaml
+              dep-set: verilator
 
     # then run:
     ivpm update
 
-IVPM automatically selects the correct platform asset and prepends the
-package ``bin/`` directory to ``PATH``.
+In either case IVPM automatically selects the correct platform asset for each
+tool and prepends the package ``bin/`` directory to ``PATH``, so the tools are
+available to downstream tasks immediately.
 
 ----
 
