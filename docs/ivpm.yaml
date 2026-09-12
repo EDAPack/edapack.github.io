@@ -61,7 +61,7 @@ package:
     description: xezim 4-state SystemVerilog simulator (IEEE 1800-2023, Rust, prebuilt binaries)
     deps:
     - name: xezim
-      url: https://github.com/opensource-elearning/xezim-bin
+      url: https://github.com/aionhw/xezim
       src: gh-rls
       cache: true
 

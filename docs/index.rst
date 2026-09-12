@@ -34,6 +34,11 @@ Available Packages
        simulator/linter, bundled with the Bitwuzla SMT solver and the UVM
        library.
      - `verilator-bin docs <https://edapack.github.io/verilator-bin/>`_
+   * - **xezim**
+     - `xezim <https://github.com/aionhw/xezim>`_ Rust SystemVerilog
+       interpreter (IEEE 1800-2023), published as prebuilt binaries on each
+       versioned upstream release.
+     - `xezim repo <https://github.com/aionhw/xezim>`_
    * - **yosys-bin**
      - `Yosys <https://yosyshq.net/yosys/>`_ open synthesis suite with
        multi-version Python bindings (``pyosys``), the ``yosys-slang``
@@ -186,7 +191,7 @@ prefix:
    * - Collection
      - Tools
    * - ``sim.rtl``
-     - Verilator + Icarus Verilog (RTL simulation)
+     - xezim + Verilator + Icarus Verilog (RTL simulation)
    * - ``sim.analog``
      - ngspice (analog/mixed-signal simulation)
    * - ``flow.fpga.ice40``
