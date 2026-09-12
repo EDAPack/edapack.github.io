@@ -57,6 +57,14 @@ package:
       src: gh-rls
       cache: true
 
+  - name: xezim
+    description: xezim 4-state SystemVerilog simulator (IEEE 1800-2023, Rust, prebuilt binaries)
+    deps:
+    - name: xezim
+      url: https://github.com/aionhw/xezim
+      src: gh-rls
+      cache: true
+
   - name: nextpnr
     description: Portable FPGA place-and-route tool
     deps:
@@ -117,8 +125,8 @@ package:
   # Curated multi-tool bundles, defined by reference to the packages above.
 
   - name: sim.rtl
-    description: Verilog/SystemVerilog RTL simulation (Verilator + Icarus Verilog)
-    uses: [verilator, iverilog]
+    description: Verilog/SystemVerilog RTL simulation (xezim + Verilator + Icarus Verilog)
+    uses: [verilator, iverilog, xezim]
 
   - name: sim.analog
     description: SPICE analog/mixed-signal simulation (ngspice)
