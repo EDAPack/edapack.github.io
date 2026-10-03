@@ -1,6 +1,8 @@
 # EDAPack top-level package catalog
 #
-# Published at the web root: https://edapack.github.io/ivpm.yaml
+# Published at the web root: https://dvkit.org/edapack/ivpm.yaml
+# (https://edapack.github.io/ivpm.yaml is a frozen copy from before the
+# move to dvkit.org and no longer updates.)
 #
 # Structure:
 # - Each tool has its own single-package dep-set so it can be pulled

@@ -6,7 +6,7 @@ release = "0.1"
 extensions = ["myst_parser"]
 
 # Copy the top-level package catalog verbatim into the site root so it is
-# served at https://edapack.github.io/ivpm.yaml
+# served at https://dvkit.org/edapack/ivpm.yaml
 html_extra_path = ["ivpm.yaml"]
 
 html_theme = "alabaster"

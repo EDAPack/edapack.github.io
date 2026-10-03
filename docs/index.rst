@@ -28,57 +28,57 @@ Available Packages
    * - **iverilog-bin**
      - `Icarus Verilog <https://steveicarus.github.io/iverilog/>`_ Verilog
        simulation compiler and runtime.
-     - `iverilog-bin docs <https://edapack.github.io/iverilog-bin/>`_
+     - `iverilog-bin docs <https://dvkit.org/edapack/iverilog-bin/>`_
    * - **verilator-bin**
      - `Verilator <https://www.veripool.org/verilator/>`_ Verilog/SystemVerilog
        simulator/linter, bundled with the Bitwuzla SMT solver and the UVM
        library.
-     - `verilator-bin docs <https://edapack.github.io/verilator-bin/>`_
+     - `verilator-bin <https://github.com/EDAPack/verilator-bin>`_
    * - **yosys-bin**
      - `Yosys <https://yosyshq.net/yosys/>`_ open synthesis suite with
        multi-version Python bindings (``pyosys``), the ``yosys-slang``
        SystemVerilog plugin, Boolector SMT solver, and DV Flow integration.
-     - `yosys-bin docs <https://edapack.github.io/yosys-bin/>`_
+     - `yosys-bin docs <https://dvkit.org/edapack/yosys-bin/>`_
    * - **nextpnr-bin**
      - `nextpnr <https://github.com/YosysHQ/nextpnr>`_ FPGA place-and-route
        tool with iCE40, ECP5, Nexus, and generic backends, plus bundled
        chipdb files.
-     - `nextpnr-bin docs <https://edapack.github.io/nextpnr-bin/>`_
+     - `nextpnr-bin docs <https://dvkit.org/edapack/nextpnr-bin/>`_
    * - **icestorm-bin**
      - `Project IceStorm <https://clifford.at/icestorm/>`_ iCE40 bitstream
        utilities (``icepack``, ``iceprog``, ``icetime``, and friends).
-     - `icestorm-bin docs <https://edapack.github.io/icestorm-bin/>`_
+     - `icestorm-bin docs <https://dvkit.org/edapack/icestorm-bin/>`_
    * - **symbiyosys-bin**
      - `SymbiYosys <https://yosyshq.readthedocs.io/projects/symbiyosys/>`_
        formal verification front-end, bundled with Boolector, Yices2, and
        Z3 solvers.
-     - `symbiyosys-bin docs <https://edapack.github.io/symbiyosys-bin/>`_
+     - `symbiyosys-bin <https://github.com/EDAPack/symbiyosys-bin>`_
    * - **openroad-bin**
      - `OpenROAD <https://theopenroadproject.org/>`_ autonomous RTL-to-GDS
        physical design flow tool for ASIC implementation.
-     - `openroad-bin docs <https://edapack.github.io/openroad-bin/>`_
+     - `openroad-bin <https://github.com/EDAPack/openroad-bin>`_
    * - **opensta-bin**
      - `OpenSTA <https://github.com/The-OpenROAD-Project/OpenSTA>`_ gate-level
        static timing analysis engine.
-     - `opensta-bin docs <https://edapack.github.io/opensta-bin/>`_
+     - `opensta-bin <https://github.com/EDAPack/opensta-bin>`_
    * - **ngspice-bin**
      - `ngspice <https://ngspice.sourceforge.io/>`_ mixed-level/mixed-signal
        analog and digital circuit simulator.
-     - `ngspice-bin docs <https://edapack.github.io/ngspice-bin/>`_
+     - `ngspice-bin docs <https://dvkit.org/edapack/ngspice-bin/>`_
    * - **gcc-riscv-bin**
      - Complete RISC-V bare-metal cross-compiler toolchain (binutils + GCC +
        newlib) supporting rv32i, rv32imac, rv64i, and rv64imac multilib
        variants.
-     - `gcc-riscv-bin docs <https://edapack.github.io/gcc-riscv-bin/>`_
+     - `gcc-riscv-bin <https://github.com/EDAPack/gcc-riscv-bin>`_
    * - **gdb-multiarch-bin**
      - `GDB <https://www.gnu.org/software/gdb/>`_ built with
        ``--enable-targets=all``, supporting x86/x86_64, RISC-V, ARM/AArch64,
        Xtensa/ESP32, and many more architectures.
-     - `gdb-multiarch-bin docs <https://edapack.github.io/gdb-multiarch-bin/>`_
+     - `gdb-multiarch-bin <https://github.com/EDAPack/gdb-multiarch-bin>`_
    * - **qemu-riscv**
      - `QEMU <https://www.qemu.org/>`_ RISC-V system emulator for running
        bare-metal and Linux-based RISC-V workloads on an x86_64 host.
-     - `qemu-riscv docs <https://edapack.github.io/qemu-riscv/>`_
+     - `qemu-riscv <https://github.com/EDAPack/qemu-riscv>`_
    * - **verible-bin**
      - `Verible <https://github.com/chipsalliance/verible>`_ SystemVerilog
        style linter, formatter, parser and language server.
@@ -202,7 +202,7 @@ Install with IVPM from the published catalog
 
 EDAPack publishes a top-level package catalog at the site root:
 
-    https://edapack.github.io/ivpm.yaml
+    https://dvkit.org/edapack/ivpm.yaml
 
 The catalog defines one dep-set per tool (``verilator``, ``yosys``,
 ``nextpnr``, …) plus curated multi-tool *collections* named with a category
@@ -232,10 +232,10 @@ published catalog and select the dep-set to install with ``-d``. No local
 ``ivpm.yaml`` is required::
 
     # Install a single tool
-    ivpm update --from https://edapack.github.io/ivpm.yaml -d verilator
+    ivpm update --from https://dvkit.org/edapack/ivpm.yaml -d verilator
 
     # Install a whole collection
-    ivpm update --from https://edapack.github.io/ivpm.yaml -d flow.asic
+    ivpm update --from https://dvkit.org/edapack/ivpm.yaml -d flow.asic
 
 This fetches the named dep-set into ``packages/`` in the current directory.
 
@@ -252,12 +252,12 @@ into your project. Each ``deps`` entry names the catalog ``url`` and the
             # Pull a curated collection …
             - name: edapack-asic
               src: ivpm.yaml
-              url: https://edapack.github.io/ivpm.yaml
+              url: https://dvkit.org/edapack/ivpm.yaml
               dep-set: flow.asic
             # … and/or an individual tool
             - name: edapack-verilator
               src: ivpm.yaml
-              url: https://edapack.github.io/ivpm.yaml
+              url: https://dvkit.org/edapack/ivpm.yaml
               dep-set: verilator
 
     # then run:
