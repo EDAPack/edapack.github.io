@@ -79,6 +79,20 @@ Available Packages
      - `QEMU <https://www.qemu.org/>`_ RISC-V system emulator for running
        bare-metal and Linux-based RISC-V workloads on an x86_64 host.
      - `qemu-riscv docs <https://edapack.github.io/qemu-riscv/>`_
+   * - **verible-bin**
+     - `Verible <https://github.com/chipsalliance/verible>`_ SystemVerilog
+       style linter, formatter, parser and language server.
+     - `verible-bin <https://github.com/edapack/verible-bin>`_
+   * - **xezim-bin**
+     - xezim event-driven SystemVerilog simulator with UVM and DPI-C/VPI
+       support, plus the standalone ``sv-parse`` parser.
+     - `xezim-bin <https://github.com/edapack/xezim-bin>`_
+   * - **xlsynth-bin**
+     - `XLS <https://google.github.io/xls/>`_ high-level synthesis
+       (the `xlsynth <https://github.com/xlsynth/xlsynth>`_ distribution):
+       DSLX to Verilog, with an interpreter, equivalence and quickcheck
+       provers, the DSLX standard library and the ``libxls`` C API.
+     - `xlsynth-bin <https://github.com/edapack/xlsynth-bin>`_
 
 ----
 
@@ -153,6 +167,21 @@ Platform Support
      - ✓
      -
      -
+     -
+   * - **verible-bin**
+     - ✓
+     - ✓
+     - ✓
+     - ✓
+   * - **xezim-bin**
+     - ✓
+     - ✓
+     - ✓
+     -
+   * - **xlsynth-bin**
+     - ✓
+     -
+     - ✓
      -
 
 ----

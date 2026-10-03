@@ -97,11 +97,35 @@ package:
       src: gh-rls
       cache: true
 
+  - name: verible
+    description: Verible SystemVerilog linter, formatter, parser and language server
+    deps:
+    - name: verible
+      url: https://github.com/edapack/verible-bin
+      src: gh-rls
+      cache: true
+
   - name: verilator
     description: Verilator high-performance Verilog/SystemVerilog-to-C++ simulator
     deps:
     - name: verilator
       url: https://github.com/edapack/verilator-bin
+      src: gh-rls
+      cache: true
+
+  - name: xezim
+    description: xezim event-driven SystemVerilog simulator with UVM and DPI-C/VPI support
+    deps:
+    - name: xezim
+      url: https://github.com/edapack/xezim-bin
+      src: gh-rls
+      cache: true
+
+  - name: xlsynth
+    description: XLS (xlsynth) high-level synthesis from DSLX to Verilog, with the libxls C API
+    deps:
+    - name: xlsynth
+      url: https://github.com/edapack/xlsynth-bin
       src: gh-rls
       cache: true
 
